@@ -1,6 +1,9 @@
 package vector
 
-import "math"
+import (
+	"github.com/goserg/zg/angle"
+	"math"
+)
 
 type Number interface {
 	~int | ~float64
@@ -40,6 +43,13 @@ func (a Vector[T]) Opposite() Vector[T] {
 	return Vector[T]{
 		X: -a.X,
 		Y: -a.Y,
+	}
+}
+
+func (a Vector[T]) Rotate(r angle.Angle) Vector[T] {
+	return Vector[T]{
+		X: T(float64(a.X)*math.Cos(r.Rads()) - float64(a.Y)*math.Sin(r.Rads())),
+		Y: T(float64(a.X)*math.Sin(r.Rads()) + float64(a.Y)*math.Cos(r.Rads())),
 	}
 }
 
