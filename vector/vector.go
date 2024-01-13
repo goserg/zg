@@ -5,54 +5,50 @@ import (
 	"math"
 )
 
-type Number interface {
-	~int | ~float64
+type Vector struct {
+	X float64
+	Y float64
 }
 
-type Vector[T Number] struct {
-	X T
-	Y T
-}
-
-func (a Vector[T]) Add(b Vector[T]) Vector[T] {
-	return Vector[T]{
+func (a Vector) Add(b Vector) Vector {
+	return Vector{
 		X: a.X + b.X,
 		Y: a.Y + b.Y,
 	}
 }
 
-func (a Vector[T]) Sub(b Vector[T]) Vector[T] {
-	return Vector[T]{
+func (a Vector) Sub(b Vector) Vector {
+	return Vector{
 		X: a.X - b.X,
 		Y: a.Y - b.Y,
 	}
 }
 
-func (a Vector[T]) Mul(m T) Vector[T] {
-	return Vector[T]{
+func (a Vector) Mul(m float64) Vector {
+	return Vector{
 		X: a.X * m,
 		Y: a.Y * m,
 	}
 }
 
-func (a Vector[T]) Normalize() Vector[T] {
-	return a.Mul(1 / T(a.Len()))
+func (a Vector) Normalize() Vector {
+	return a.Mul(1 / a.Len())
 }
 
-func (a Vector[T]) Opposite() Vector[T] {
-	return Vector[T]{
+func (a Vector) Opposite() Vector {
+	return Vector{
 		X: -a.X,
 		Y: -a.Y,
 	}
 }
 
-func (a Vector[T]) Rotate(r angle.Angle) Vector[T] {
-	return Vector[T]{
-		X: T(float64(a.X)*math.Cos(r.Rads()) - float64(a.Y)*math.Sin(r.Rads())),
-		Y: T(float64(a.X)*math.Sin(r.Rads()) + float64(a.Y)*math.Cos(r.Rads())),
+func (a Vector) Rotate(r angle.Angle) Vector {
+	return Vector{
+		X: a.X*math.Cos(r.Rads()) - a.Y*math.Sin(r.Rads()),
+		Y: a.X*math.Sin(r.Rads()) + a.Y*math.Cos(r.Rads()),
 	}
 }
 
-func (a Vector[T]) Len() float64 {
-	return math.Sqrt(float64(a.X*a.X) + float64(a.Y*a.Y))
+func (a Vector) Len() float64 {
+	return math.Sqrt(a.X*a.X + a.Y*a.Y)
 }
